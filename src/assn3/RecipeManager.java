@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.NoSuchElementException;
+import java.lang.IndexOutOfBoundsException;
 import java.util.Scanner;
 
 /*
@@ -24,18 +25,27 @@ public class RecipeManager
 	 */
 	private ArrayList<Recipe> data;
 	
-	
-	/*
-	 flour 600.0
-	sugar 22.0
-	eggs 0.0
-	butter 0.0
-	yeast 1.0
+	/**
+	 * The Integer stored at the same index as some recipe in `data` is the number of that recipe that is to be added to the shopping list
 	 */
+	private ArrayList<Integer> counts;
+	
+
+	/** 
+	 * Initializes `data` & `counts`
+	 */
+	public RecipeManager()
+	{
+		data   = new ArrayList<>();
+		counts = new ArrayList<>(); 
+	}
+
 	
 	/**
 	 * A function for storing recipe's in `data`. Iterates through the backing array to make sure an equivalent recipe
 	 * doesn't already exist. If it does, it doesn't store the new recipe.
+	 * 
+	 * Stores values in alphabetical order
 	 *
 	 * @param r The recipe to store
 	 */
@@ -44,25 +54,27 @@ public class RecipeManager
 		for (int i = 0; i < data.size(); i++)
 		{
 			int comparison = data.get(i).getName().compareTo(r.getName()); 
-			if (comparison <= 0) 
+			if (comparison >= 0) 
 			{
-				if (comparison == 0)
-				{
-					// I decided to avoid storing duplicates. 
-					return;
-				}
+				if (comparison == 0) return; // I decided to avoid storing duplicates. 
+				
 				data.add(i, r); // Inserts element at current index and shifts all elements right
+				counts.add(i, 0);
+				return;
 			}
 		}
+		data.add(r); // First element is added
+		counts.add(0);
 	}//~ storeRecipe
 	
 	
+
 	/**
 	 * Reads a file, attempting to populate 'data' with the recipes
 	 * 
 	 * @param path
 	 */
-	public void readFile(String relativePath)
+	public void readRecipeFile(String relativePath)
 	{
 		File file = null;
 		Scanner scanner = null;
@@ -99,9 +111,10 @@ public class RecipeManager
 						break;
 					}	
 				}
-				data.add(r); // copies??
+				storeRecipe(r);
 			}//~ while hasNext() in file
 
+			//TODO: remove this once done testing
 			System.out.print(data);
 		} catch (FileNotFoundException e)
 		{
@@ -109,10 +122,7 @@ public class RecipeManager
 		} catch (NoSuchElementException e)
 		{
 			e.printStackTrace();
-		}
-		finally
-		{
-			System.out.println("\"finally block\" called");
+		} finally {
 			if (scanner != null)
 			{
 				scanner.close();
@@ -121,6 +131,50 @@ public class RecipeManager
 		}
 	}// ~readFile()
 
+	
+	
+	/**
+	 * @param idx The index of element in shopping list
+	 * 
+	 * @throws IndexOutOfBoundsException exception
+	 */
+	public void addToShoppingListByIdx(int idx)
+	{
+		Recipe r = null;
+		try {
+			if (idx < 0 || idx > data.size() - 1) {
+				throw new IndexOutOfBoundsException();
+				// TODO: do I need to set message?
+			}
+			counts.set(idx, counts.get(idx) + 1); // Increase count
+		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	/** TODO
+	 * Writes the contents of the shopping
+	 * 
+	 * @param relativePath
+	 */
+	public void writeShoppingList(String relativePath)
+	{
+		
+	}
+	
+	
+	/**
+	 * Test function. TODO: remove before handing in
+	 */
+	public void printCounts()
+	{
+		System.out.println(counts);
+	}
+	
+	
+	
 }
 
 

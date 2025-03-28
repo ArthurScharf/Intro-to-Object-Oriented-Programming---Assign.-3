@@ -26,6 +26,10 @@ public class RecipeManagerTest
 	{
 		RecipeManager manager = new RecipeManager();
 		
-		manager.readFile("recipelist.txt");
+		manager.readRecipeFile("recipelist.txt");
+		manager.addToShoppingListByIdx(3);
+		manager.addToShoppingListByIdx(3);
+		manager.addToShoppingListByIdx(2);
+		manager.printCounts();
 	}
 }

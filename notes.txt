@@ -1,0 +1,126 @@
+Major Objectives:
+	Properly Exception Handling
+	Reading & Writing files
+
+
+---- TODO ----
+[x] Make sure I'm parsing the file correctly using RecipeManager
+[x] What do I do with duplicate recipes?
+	> we throw out the second instance of a recipe when found
+[ ] Am I handling all the errors that can be thrown?
+[ ] Test to make sure counts are placed at the same index as their respective recipes
+
+
+
+---- Testing ----
+Testing results recipelist.txt
+	> garbage lines
+	> Recipe with no name
+	> Recipe with missing ingredients
+	> Recipes ignore negative ingredient values
+	> Recipe with missing ingredients & no name
+	> Recipe with varying white spaces between elements
+	> Tested for alphabetized result when adding recipes
+	> Tested for rejecting duplicate recipes
+	
+	
+	
+---- Design Notes ----
+we throw out the second instance of a recipe when found
+Recipe handles empty names, and negative ingredient values
+
+
+
+---- Learning Notes ----
+hasNext() --> true   IF   nextLine has no tokens
+
+
+
+
+
+---- Loading & Parsing the Recipes ----
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+File IO
+Exception Handling
+
+
+bread recipe manager
+
+
+
+
+ArrayLists & Arrays only
+
+Don't include 0s in final shopping list.
+
+Make sure to sanitize input. He's gonna try to break input as much as possible
+
+Be able to handle negative recipe values
+
+
+
+---- Control Structure ----
+Store all found recipes from file at runtime, as objects
+
+Only create shopping_list.txt when user prompts
+
+
+
+
+1. Program opens and parses recipelist.txt, creating objects in ram
+2. User is prompted to choose a bread to add to shopping list.
+4. Can create shopping list (write to file)
+5. Can print shopping list (
+
+
+
+
+---- Recipe text format ----
+
+> Ingredients aren't in the same order for each recipe 
+> Recipe names can have white spaces
+> Recipe text will always have 5 elements
+
+
+
+
+Recipe <recipe_name>
+<ingredient> <float_amount>
+<ingredient> <float_amount>
+<ingredient> <float_amount>
+<ingredient> <float_amount>
+<ingredient> <float_amount>
+
+
+---- Parse Algorithm ----
+
+1. If next == 'Recipe'
+	THEN: read rest of line for recipe name. Use this to construct object
+2. Read next 5 lines, putting each value into the appropriate bucket
+
