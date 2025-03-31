@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.NoSuchElementException;
-import java.lang.IndexOutOfBoundsException;
+
+
 import java.util.Scanner;
 
 /*
@@ -19,66 +22,18 @@ import java.util.Scanner;
  */
 public class RecipeManager
 {
-	/**
-	 * Stores recipe's.
-	 * Recipes are stored in alphabetical order
-	 */
-	private ArrayList<Recipe> data;
-	
-	/**
-	 * The Integer stored at the same index as some recipe in `data` is the number of that recipe that is to be added to the shopping list
-	 */
-	private ArrayList<Integer> counts;
-	
 
-	/** 
-	 * Initializes `data` & `counts`
-	 */
-	public RecipeManager()
-	{
-		data   = new ArrayList<>();
-		counts = new ArrayList<>(); 
-	}
-
-	
-	/**
-	 * A function for storing recipe's in `data`. Iterates through the backing array to make sure an equivalent recipe
-	 * doesn't already exist. If it does, it doesn't store the new recipe.
-	 * 
-	 * Stores values in alphabetical order
-	 *
-	 * @param r The recipe to store
-	 */
-	public void storeRecipe(Recipe r)
-	{
-		for (int i = 0; i < data.size(); i++)
-		{
-			int comparison = data.get(i).getName().compareTo(r.getName()); 
-			if (comparison >= 0) 
-			{
-				if (comparison == 0) return; // I decided to avoid storing duplicates. 
-				
-				data.add(i, r); // Inserts element at current index and shifts all elements right
-				counts.add(i, 0);
-				return;
-			}
-		}
-		data.add(r); // First element is added
-		counts.add(0);
-	}//~ storeRecipe
-	
-	
 
 	/**
 	 * Reads a file, attempting to populate 'data' with the recipes
 	 * 
 	 * @param path
 	 */
-	public void readRecipeFile(String relativePath)
+	public static ArrayList<Recipe> readRecipeFile(String relativePath)
 	{
 		File file = null;
 		Scanner scanner = null;
-		data = new ArrayList<>();
+		ArrayList<Recipe> data = new ArrayList<>();
 		try
 		{
 			file = new File(relativePath);
@@ -111,68 +66,67 @@ public class RecipeManager
 						break;
 					}	
 				}
-				storeRecipe(r);
+				storeRecipe(r, data);
 			}//~ while hasNext() in file
-
-			//TODO: remove this once done testing
-			System.out.print(data);
+			return data;
 		} catch (FileNotFoundException e)
 		{
 			e.printStackTrace();
+			return new ArrayList<Recipe>();
 		} catch (NoSuchElementException e)
 		{
 			e.printStackTrace();
+			return new ArrayList<Recipe>();
 		} finally {
 			if (scanner != null)
 			{
 				scanner.close();
 			}
-
 		}
 	}// ~readFile()
 
-	
-	
-	/**
-	 * @param idx The index of element in shopping list
-	 * 
-	 * @throws IndexOutOfBoundsException exception
-	 */
-	public void addToShoppingListByIdx(int idx)
-	{
-		Recipe r = null;
-		try {
-			if (idx < 0 || idx > data.size() - 1) {
-				throw new IndexOutOfBoundsException();
-				// TODO: do I need to set message?
-			}
-			counts.set(idx, counts.get(idx) + 1); // Increase count
-		} catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	
-	/** TODO
-	 * Writes the contents of the shopping
-	 * 
-	 * @param relativePath
-	 */
-	public void writeShoppingList(String relativePath)
-	{
 		
-	}
-	
-	
 	/**
-	 * Test function. TODO: remove before handing in
+	 * A helper function for storing recipe's in `data`. Iterates through the array to make sure an equivalent recipe
+	 * doesn't already exist. If it does, it doesn't store the new recipe.
+	 * 
+	 * Stores values in alphabetical order
+	 *
+	 * @param r The recipe to store
 	 */
-	public void printCounts()
+	private static void storeRecipe(Recipe r, ArrayList<Recipe> data)
 	{
-		System.out.println(counts);
-	}
+		for (int i = 0; i < data.size(); i++)
+		{
+			int comparison = data.get(i).getName().compareTo(r.getName()); 
+			if (comparison >= 0) 
+			{
+				if (comparison == 0) return; // I decided to avoid storing duplicates. 
+				
+				data.add(i, r); // Inserts element at current index and shifts all elements right
+				return;
+			}
+		}
+		data.add(r); // First element is added
+
+	}//~ storeRecipe
+
 	
+
+	public static void writeShoppingList(String list, String absolutePath)
+	{
+		File file = null;
+		FileWriter writer = null;
+		try {
+			file = new File(absolutePath);
+			writer = new FileWriter(file);
+			writer.write(list);
+			writer.close();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		} 
+	}//~ writeShoppingList
 	
 	
 }

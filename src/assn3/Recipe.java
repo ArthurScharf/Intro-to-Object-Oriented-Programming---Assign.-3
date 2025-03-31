@@ -12,7 +12,7 @@ public class Recipe
 	 * float representations of recipe values
 	 */
 	private float butter;
-	private float eggs;
+	private float eggs; // NOTE: While eggs are discrete, recipe files store them as floats
 	private float flour;
 	private float sugar;
 	private float yeast;

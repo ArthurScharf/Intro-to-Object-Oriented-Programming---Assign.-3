@@ -9,6 +9,7 @@ Major Objectives:
 	> we throw out the second instance of a recipe when found
 [ ] Am I handling all the errors that can be thrown?
 [ ] Test to make sure counts are placed at the same index as their respective recipes
+[x] User should be able to choose negative integers for recipe multiples. These should subtract down to zero, but not passed it
 
 
 
@@ -38,8 +39,80 @@ hasNext() --> true   IF   nextLine has no tokens
 
 
 
----- Loading & Parsing the Recipes ----
+---- Shopping list life-cycle ----
+Read by RecipeManager
+Stored in RecipeManagerTest
 
+Apparently should store shopping list info????
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+	/** 
+	 * Creates a new file in the root directory of the program if one doesn't already exist.
+	 * Writes the shopping list to the file
+	 * 
+	 * @param relativePath
+	 */
+	
+	public void writeShoppingList(String relativePath)
+	{
+		File file = null;
+		FileWriter writer = null;
+		try
+		{
+			// -- Creating File -- //
+			file = new File(relativePath); 
+			file.createNewFile(); // Attempts to create a new file
+			writer = new FileWriter(file);
+			
+			
+			// -- Writing to File -- //
+			/*
+			 * Iterate through `counts`. Each non-zero indicates that the recipe with the same index as that non-zero
+			 * should be added to the shopping list, with the multiplicity being 
+			 * the value of the non-zero count.
+			 * Each non-zero inclusion will add it's ingredient values to the totals, which will be written afterwards
+			 */
+			float butter = 0.f;
+			int   eggs   = 0;
+			float flour  = 0.f;
+			float sugar  = 0.f;
+			float yeast  = 0.f;
+			for (int i = 0; i < counts.size(); i++)
+			{
+				if (counts.get(i) > 0)
+				{
+					// NOTE: Recipe never allows negative values for ingredients so it's safe to just add
+					Recipe r = data.get(i);
+					butter += r.getButter();
+					eggs   += r.getEggs();
+					flour  += r.getFlour();
+					sugar  += r.getSugar();
+					yeast  += r.getYeast();
+					writer.write(counts.get(i) + " : " + r.getName() + "\n");
+				}
+			}
+			writer.write("\n -- Ingredients -- \n");
+			writer.write(butter + " grams of butter\n");
+			writer.write(eggs   + " egg(s)\n");
+			writer.write(flour  + " grams of flour\n");
+			writer.write(sugar  + " grams of sugar\n");
+			writer.write(yeast  + " grams of yeast\n");
+			writer.close();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}//~ writeShoppingList
+	*/
 
 
 
