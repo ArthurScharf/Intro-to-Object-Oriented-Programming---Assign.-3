@@ -1,3 +1,16 @@
+/*
+ * Author: Arthur Scharf
+ * Date: March 31, 2025
+ * File: RecipeManagerTest.java
+ * Description: For assignment 3. An assignmetn meant to test our error handling, and file/read write comprehension
+ */
+
+
+
+
+
+
+
 package assn3;
 
 import java.util.ArrayList;

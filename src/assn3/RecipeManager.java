@@ -1,3 +1,11 @@
+/*
+ * Author: Arthur Scharf
+ * Date: March 31, 2025
+ * File: RecipeManager.java
+ * Description: For assignment 3. An assignmetn meant to test our error handling, and file/read write comprehension
+ */
+
+
 package assn3;
 
 import java.util.ArrayList;
@@ -113,6 +121,12 @@ public class RecipeManager
 
 	
 
+	/**
+	 * Writes a shopping list to the passed path
+	 * 
+	 * @param list String representation of the shopping list. Will be directly written to the file at the given path
+	 * @param absolutePath The path `list` will be written to 
+	 */
 	public static void writeShoppingList(String list, String absolutePath)
 	{
 		File file = null;

@@ -1,3 +1,18 @@
+/*
+ * Author: Arthur Scharf
+ * Date: March 31, 2025
+ * File: RecipeManager.java
+ * Description: For assignment 3. An assignmetn meant to test our error handling, and file/read write comprehension
+ */
+
+
+
+
+
+
+/**
+ * A container class designed to store the name and ingredients of a recipe.
+ */
 package assn3;
 
 public class Recipe
@@ -41,6 +56,10 @@ public class Recipe
 	}
 
 	
+	/**
+	 * Returns the recipe in its string format.
+	 * Shows the name, and the amount of each ingredient required for the recipe
+	 */
 	public String toString()
 	{
 		return String.format(
